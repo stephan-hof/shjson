@@ -13,7 +13,6 @@ setup(
     name="shjson",
     version='0.1',
     description='Stream based JSON parsing with a Python C-Extension around YAJL',
-    long_description=open('README.md').read(),
     keywords='json',
     author='Stephan Hofmockel',
     author_email="Use the github issues",
