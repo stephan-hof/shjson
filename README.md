@@ -8,8 +8,8 @@ This function returns a iterator of JSON events like http://pypi.python.org/pypi
 Example:
 ```python
 import cStringIO
-import _ijson
-for event in _ijson.basic_parse(cStringIO.StringIO('[1, "2", null, {"key": "value"}]')):
+import shjson
+for event in shjson.basic_parse(cStringIO.StringIO('[1, "2", null, {"key": "value"}]')):
     print event
 
 ('start_array', None)
