@@ -15,7 +15,7 @@ typedef struct {
 } deque_t;
 
 static deque_t*
-deque_create() {
+deque_create(void) {
     deque_t *queue = malloc(sizeof(deque_t));
 
     queue->array = malloc(sizeof(PyObject*) * MAX_SIZE);
@@ -66,5 +66,3 @@ inline static unsigned int
 deque_size(deque_t *self) {
     return self->current_size;
 }
-
-int main(){}

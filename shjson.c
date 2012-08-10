@@ -93,7 +93,7 @@ convert_number(void *queued_events, const char *val, unsigned int len)
 static int
 convert_string(void *queued_events, const unsigned char *val, unsigned int len)
 {
-    PyObject *string_obj = PyString_FromStringAndSize(val, len);
+    PyObject *string_obj = PyString_FromStringAndSize((const char*)val, len);
     if (string_obj == NULL)
         return 0;
 
@@ -116,7 +116,7 @@ convert_start_map(void *queued_events)
 static int
 convert_map_key(void *queued_events, const unsigned char *val, unsigned int len)
 {
-    PyObject *map_key= PyString_FromStringAndSize(val, len);
+    PyObject *map_key= PyString_FromStringAndSize((const char*)val, len);
     if (map_key== NULL)
         return 0;
 
@@ -254,7 +254,7 @@ read_and_feed(event_iterator *self) {
         else {
             status = yajl_parse(
                         self->parser,
-                        PyString_AS_STRING(data),
+                        (const unsigned char *) PyString_AS_STRING(data),
                         PyString_GET_SIZE(data));
         }
 
@@ -262,7 +262,7 @@ read_and_feed(event_iterator *self) {
             err = yajl_get_error(
                         self->parser,
                         1,
-                        PyString_AS_STRING(data),
+                        (const unsigned char*) PyString_AS_STRING(data),
                         PyString_GET_SIZE(data));
 
             PyErr_SetString(PyExc_Exception, (char*) err);
