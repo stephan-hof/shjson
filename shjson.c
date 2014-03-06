@@ -179,8 +179,13 @@ basic_parse(PyObject *module, PyObject *args)
 
     deque_t *queued_events = deque_create();
 
-    yajl_parser_config cfg = {0, 0};
-    yajl_handle parser = yajl_alloc(&callbacks, &cfg, NULL, (void*) queued_events);
+    yajl_handle parser = yajl_alloc(&callbacks, NULL, (void*) queued_events);
+
+    yajl_config(parser, yajl_allow_comments, 0);
+    yajl_config(parser, yajl_dont_validate_strings, 0);
+    yajl_config(parser, yajl_allow_trailing_garbage, 0);
+    yajl_config(parser, yajl_allow_multiple_values, 0);
+    yajl_config(parser, yajl_allow_partial_values, 0);
 
     return event_iterator_new(read_method, parser, queued_events);
 }
@@ -244,12 +249,7 @@ read_and_feed(event_iterator *self) {
 
         if (PyString_GET_SIZE(data) == 0) {
             self->eof = 1;
-            status = yajl_parse_complete(self->parser);
-            if (status == yajl_status_insufficient_data) {
-                PyErr_Format(PyExc_Exception, "Parser expects more data");
-                Py_DECREF(data);
-                return -1;
-            }
+            status = yajl_complete_parse(self->parser);
         }
         else {
             status = yajl_parse(

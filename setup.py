@@ -11,7 +11,7 @@ mod = Extension(
 
 setup(
     name="shjson",
-    version='0.1',
+    version='0.2',
     description='Stream based JSON parsing with a Python C-Extension around YAJL',
     keywords='json',
     author='Stephan Hofmockel',
